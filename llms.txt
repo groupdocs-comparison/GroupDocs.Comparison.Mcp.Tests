@@ -1,0 +1,43 @@
+# GroupDocs.Comparison.Mcp.Tests
+
+Integration tests and deployment how-to guides for GroupDocs.Comparison.Mcp — the MCP server that exposes GroupDocs.Comparison for .NET to AI agents (Claude, Cursor, VS Code / GitHub Copilot, and other MCP-compatible clients).
+
+This repo validates the **published NuGet artifact** end-to-end and doubles as a reference for using it from every supported channel.
+
+## Primary repository
+
+- MCP server source + package: https://github.com/groupdocs-comparison/GroupDocs.Comparison.Mcp
+- NuGet package: https://www.nuget.org/packages/GroupDocs.Comparison.Mcp
+- Docker images: ghcr.io/groupdocs-comparison/comparison-net-mcp and docker.io/groupdocs/comparison-net-mcp
+
+## Deployment channels covered by how-to guides
+
+- how-to/01-install-from-nuget.md — dnx (recommended) + global dotnet tool
+- how-to/02-run-via-docker.md — container image + docker-compose
+- how-to/03-verify-mcp-registry.md — MCP registry discovery and NuGet.org auto-generated mcp.json
+- how-to/04-use-with-claude-desktop.md — Claude Desktop stdio config
+- how-to/05-use-with-vscode-copilot.md — VS Code / GitHub Copilot config with prompt-string inputs
+- how-to/06-run-integration-tests.md — run this repo's test suite locally and in CI
+
+## MCP tools exposed by the server
+
+- Compare — compare two documents (source vs target), produce a marked-up result file with the differences highlighted, return a change-count summary; takes optional `sourcePassword` / `targetPassword` for protected documents
+- GetDocumentInfo — inspect a single source document and return file type, page count, file size, and per-page dimensions as JSON; no comparison performed; takes optional `password` for protected documents
+
+## Environment variables
+
+- GROUPDOCS_MCP_STORAGE_PATH — base folder for input + output (defaults to current working directory)
+- GROUPDOCS_MCP_OUTPUT_PATH — optional, routes output files to a separate folder
+- GROUPDOCS_LICENSE_PATH — path to GroupDocs.Total.lic; omit for evaluation mode (output watermarked)
+
+## Key facts for AI agents
+
+- Testing the shipped NuGet, not the source. No project reference to the server.
+- Tool names on the wire are PascalCase: Compare, GetDocumentInfo.
+- Compare produces a watermarked output in evaluation mode (does not throw). GetDocumentInfo is read-only and unaffected by license state. Tests succeed in both eval and licensed mode.
+- Two synthetic PDFs are generated at test startup so a Compare call always has a known diff target. Real samples (sample.docx, sample.xlsx, etc.) under sample-docs/ are exercised via self-comparison theories.
+- Target framework is net10.0 only. Requires .NET 10 SDK for dnx.
+
+## License
+
+MIT — see LICENSE

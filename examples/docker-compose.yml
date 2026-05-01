@@ -1,0 +1,9 @@
+services:
+  groupdocs-comparison-mcp:
+    image: ghcr.io/groupdocs-comparison/comparison-net-mcp:latest
+    stdin_open: true
+    tty: false
+    environment:
+      GROUPDOCS_MCP_STORAGE_PATH: /data
+    volumes:
+      - ./documents:/data

@@ -1,0 +1,3 @@
+# Drop real-world fixture documents (PDF, DOCX, JPG, MP3, etc.) here and reference
+# them from a test by filename. The project copies everything in this folder to
+# the test output directory automatically.
