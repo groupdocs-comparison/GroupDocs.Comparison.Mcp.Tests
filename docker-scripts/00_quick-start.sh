@@ -37,7 +37,7 @@ chmod +x *.sh          # Make scripts executable (Linux/macOS only)
 ./02_test-all-scenarios.sh --filter Compare
 
 # Pin to a specific version (recommended for CI / reproducible runs)
-./02_test-all-scenarios.sh --version 26.5.0
+./02_test-all-scenarios.sh --version 26.5.1
 
 # Use GroupDocs license (unlocks Compare tests)
 ./02_test-all-scenarios.sh --license /path/to/GroupDocs.Total.lic
@@ -46,7 +46,7 @@ chmod +x *.sh          # Make scripts executable (Linux/macOS only)
 # ===== DOCKER-SPECIFIC COMMANDS =====
 
 # Pin to a specific version in Docker
-./03_test-docker-compose.sh --version 26.5.0
+./03_test-docker-compose.sh --version 26.5.1
 
 # Run in Docker and keep containers (for debugging)
 ./03_test-docker-compose.sh --keep
@@ -58,7 +58,7 @@ docker compose -f docker-compose.test.yml down -v
 # ===== ADVANCED USAGE =====
 
 # Test multiple specific versions sequentially
-for v in 26.4.3 26.5.0 26.5.0; do
+for v in 26.4.3 26.5.1 26.5.1; do
   ./02_test-all-scenarios.sh --version $v || exit 1
 done
 

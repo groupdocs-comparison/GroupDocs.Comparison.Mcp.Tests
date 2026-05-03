@@ -28,7 +28,7 @@ Windows and `~/.dotnet/dnx` on Linux/macOS.
 ## Option 1 — dnx (recommended)
 
 ```bash
-dnx GroupDocs.Comparison.Mcp@26.5.0 --yes
+dnx GroupDocs.Comparison.Mcp@26.5.1 --yes
 ```
 
 The first invocation downloads the package into the NuGet cache; subsequent
@@ -44,7 +44,7 @@ dnx GroupDocs.Comparison.Mcp --yes                # latest stable, refreshed eve
 dnx GroupDocs.Comparison.Mcp --prerelease --yes   # latest including pre-releases
 ```
 
-| | Pinned (`@26.5.0`) | Unpinned |
+| | Pinned (`@26.5.1`) | Unpinned |
 |---|---|---|
 | Use for | Client configs committed to repos, CI, shared team setups | Quick local smoke tests, dev machines that should track latest |
 | Reproducibility | identical version on every machine / session | depends on when each machine first pulled |
@@ -85,7 +85,7 @@ Pipe an `initialize` + `tools/list` sequence to see the advertised tools:
   echo '{"jsonrpc":"2.0","method":"notifications/initialized"}'
   echo '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
   sleep 2
-) | GROUPDOCS_MCP_STORAGE_PATH=./docs dnx GroupDocs.Comparison.Mcp@26.5.0 --yes
+) | GROUPDOCS_MCP_STORAGE_PATH=./docs dnx GroupDocs.Comparison.Mcp@26.5.1 --yes
 ```
 
 You should see two JSON-RPC responses containing the `Compare` and
@@ -128,7 +128,7 @@ Set via environment variables when launching:
 ```bash
 GROUPDOCS_MCP_STORAGE_PATH=/data/documents \
 GROUPDOCS_LICENSE_PATH=/secrets/GroupDocs.Total.lic \
-dnx GroupDocs.Comparison.Mcp@26.5.0 --yes
+dnx GroupDocs.Comparison.Mcp@26.5.1 --yes
 ```
 
 ## License
@@ -147,7 +147,7 @@ The server's `initialize` response includes `serverInfo.version`. With an MCP
 client:
 
 ```text
-initialize response → serverInfo: { name: "GroupDocs.Comparison.Mcp", version: "26.5.0" }
+initialize response → serverInfo: { name: "GroupDocs.Comparison.Mcp", version: "26.5.1" }
 ```
 
 This value comes from the published assembly's `AssemblyInformationalVersion`

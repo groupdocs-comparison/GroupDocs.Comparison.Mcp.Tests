@@ -13,7 +13,7 @@ on:
       package_version:
         description: "GroupDocs.Comparison.Mcp version on nuget.org to test"
         required: false
-        default: "26.5.0"
+        default: "26.5.1"
   # Triggered from the main repo's publish workflow right after a NuGet push.
   # Payload: { "package_version": "x.y.z" }
   repository_dispatch:
@@ -32,7 +32,7 @@ jobs:
       MCP_PACKAGE_VERSION: >-
         ${{ github.event.inputs.package_version
             || github.event.client_payload.package_version
-            || '26.5.0' }}
+            || '26.5.1' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -40,6 +40,18 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
+
+      # GroupDocs.Comparison's image-format paths (PDF rendering, image
+      # comparison) call System.Drawing internally on .NET — Linux runners
+      # need libgdiplus (managed System.Drawing implementation) and
+      # libfontconfig1 (font discovery). Without these, comparison of
+      # image-bearing documents fails. Mirrors the apt-get block in the main
+      # repo's docker/Dockerfile.
+      - name: Install Linux native deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libgdiplus libfontconfig1
 
       - name: Show environment
         shell: bash
