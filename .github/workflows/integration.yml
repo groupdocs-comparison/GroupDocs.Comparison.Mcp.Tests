@@ -43,15 +43,26 @@ jobs:
 
       # GroupDocs.Comparison's image-format paths (PDF rendering, image
       # comparison) call System.Drawing internally on .NET — Linux runners
-      # need libgdiplus (managed System.Drawing implementation) and
-      # libfontconfig1 (font discovery). Without these, comparison of
-      # image-bearing documents fails. Mirrors the apt-get block in the main
-      # repo's docker/Dockerfile.
+      # need:
+      # - libgdiplus           : managed System.Drawing implementation
+      # - libfontconfig1       : font discovery
+      # - ttf-mscorefonts-installer : Arial / Times New Roman / etc. The
+      #   `compare` tool produces marked-up output that re-renders text glyphs;
+      #   without MS core fonts the engine fails on font resolution and the
+      #   wrapped error reads "An error occurred invoking 'compare'." Pattern
+      #   lifted from the sibling python-conversion Dockerfile. EULA accepted
+      #   via debconf-set-selections; fc-cache refresh post-install.
+      # Note: the .NET Docker base aspnet:10.0 inherits these fonts from
+      # Debian-bookworm-slim; bare ubuntu-24.04 runners do not.
       - name: Install Linux native deps
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libgdiplus libfontconfig1
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+          sudo apt-get install -y --no-install-recommends \
+            libgdiplus libfontconfig1 ttf-mscorefonts-installer
+          # Refresh font cache so newly-installed MS fonts are discoverable.
+          sudo fc-cache -f -v > /dev/null
 
       - name: Show environment
         shell: bash
