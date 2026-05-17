@@ -35,7 +35,10 @@ public class GetDocumentInfoTests
         _output.WriteLine(json.ToString());
 
         Assert.Equal(SampleDocuments.SourcePdf, json.GetProperty("fileName").GetString());
-        Assert.Equal("pdf", json.GetProperty("fileType").GetProperty("extension").GetString(), ignoreCase: true);
+        // GroupDocs.Comparison's FileType.Extension is dot-prefixed (".pdf"),
+        // which GetDocumentInfoTool surfaces verbatim. Assert the dot-prefixed
+        // form rather than a bare "pdf".
+        Assert.Equal(".pdf", json.GetProperty("fileType").GetProperty("extension").GetString(), ignoreCase: true);
         Assert.True(json.GetProperty("pageCount").GetInt32() >= 1,
             "Expected at least one page in the synthetic PDF.");
         Assert.True(json.GetProperty("sizeBytes").GetInt64() > 0,
