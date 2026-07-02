@@ -4,7 +4,7 @@ Step-by-step guides for verifying and using every deployment channel of
 [`GroupDocs.Comparison.Mcp`](https://www.nuget.org/packages/GroupDocs.Comparison.Mcp).
 
 Each guide is self-contained — pick the one that matches your workflow. They
-all point at the same published artifact (`26.5.0` at time of writing).
+all point at the same published artifact (`26.7.0` at time of writing).
 
 | # | Guide | When to use |
 |---|---|---|
@@ -27,9 +27,10 @@ all point at the same published artifact (`26.5.0` at time of writing).
 
 ## Common context
 
-- All guides target `GroupDocs.Comparison.Mcp@26.5.0`. Substitute a newer version
-  freely — the interfaces haven't changed.
-- Tools exposed on the wire are `Compare` and `GetDocumentInfo` (snake_case).
+- All guides target `GroupDocs.Comparison.Mcp@26.7.0`. Substitute a newer version
+  freely — the interfaces are additive-only.
+- Tools exposed on the wire are `Compare`, `AnalyzeChanges`, and `GetDocumentInfo` (snake_case).
+  `AnalyzeChanges` (added in 26.7.0) returns the structured change list without rendering a result file.
 - `Compare` works without a license — output is just watermarked. With a license configured via `GROUPDOCS_LICENSE_PATH`, the
   underlying library refuses to `Save()`. See each guide's "License" section.
 - Evaluation-mode output may include a watermark prefix. The server surfaces

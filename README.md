@@ -6,7 +6,7 @@ NuGet package — an MCP server that exposes
 
 This repository validates the **published** NuGet artifact end-to-end: it
 launches the server via `dnx`, connects as an MCP client, and exercises the
-advertised tool. It also doubles as a copy-pasteable set of example configs
+advertised tools. It also doubles as a copy-pasteable set of example configs
 and user-facing how-to guides for every deployment channel.
 
 ## Documentation
@@ -31,7 +31,8 @@ and user-facing how-to guides for every deployment channel.
 |---|---|
 | Package installs and starts via `dnx` | [McpServerFixture](src/GroupDocs.Comparison.Mcp.Tests/Fixtures/McpServerFixture.cs) |
 | MCP handshake, server info, version | [ToolDiscoveryTests](src/GroupDocs.Comparison.Mcp.Tests/ToolDiscoveryTests.cs) |
-| `Compare` — synthetic source vs target diff + self-comparison + real-sample theory | [CompareTests](src/GroupDocs.Comparison.Mcp.Tests/CompareTests.cs) |
+| `Compare` — synthetic source vs target diff + structured `Changes:` JSON + self-comparison + real-sample theory | [CompareTests](src/GroupDocs.Comparison.Mcp.Tests/CompareTests.cs) |
+| `AnalyzeChanges` — structured change list without rendering a file; asserts no `*_compared` output is written | [AnalyzeChangesTests](src/GroupDocs.Comparison.Mcp.Tests/AnalyzeChangesTests.cs) |
 | `GetDocumentInfo` — file type, page count, size, per-page dimensions for synthetic + real samples | [GetDocumentInfoTests](src/GroupDocs.Comparison.Mcp.Tests/GetDocumentInfoTests.cs) |
 | Unknown / corrupted files, password parameters | [ErrorHandlingTests](src/GroupDocs.Comparison.Mcp.Tests/ErrorHandlingTests.cs) |
 
@@ -46,9 +47,9 @@ dotnet test
 Test a specific published version:
 
 ```bash
-dotnet test -p:McpPackageVersion=26.5.0
+dotnet test -p:McpPackageVersion=26.7.0
 # or
-MCP_PACKAGE_VERSION=26.5.0 dotnet test
+MCP_PACKAGE_VERSION=26.7.0 dotnet test
 ```
 
 The first run downloads the NuGet package — subsequent runs are cached.

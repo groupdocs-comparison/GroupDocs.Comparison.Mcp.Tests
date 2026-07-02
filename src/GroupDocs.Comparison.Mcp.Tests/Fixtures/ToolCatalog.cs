@@ -3,9 +3,9 @@ using ModelContextProtocol.Client;
 namespace GroupDocs.Comparison.Mcp.IntegrationTests.Fixtures;
 
 /// Resolves tool names by keyword. The server-side attribute [McpServerTool] uses
-/// the method name verbatim today (PascalCase: Compare, GetDocumentInfo).
-/// Keyword-based resolution keeps tests robust against future renames / casing
-/// convention changes.
+/// the method name verbatim today (PascalCase: Compare, AnalyzeChanges,
+/// GetDocumentInfo). Keyword-based resolution keeps tests robust against future
+/// renames / casing convention changes.
 internal sealed class ToolCatalog
 {
     private readonly IReadOnlyList<McpClientTool> _tools;
@@ -21,6 +21,7 @@ internal sealed class ToolCatalog
     public IReadOnlyList<McpClientTool> All => _tools;
 
     public McpClientTool Compare => Resolve("compare");
+    public McpClientTool AnalyzeChanges => Resolve("analyze");
     public McpClientTool DocumentInfo => Resolve("document_info");
 
     private McpClientTool Resolve(string keyword) =>
