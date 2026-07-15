@@ -27,7 +27,7 @@ Create the file if it doesn't exist.
     "groupdocs-comparison": {
       "type": "stdio",
       "command": "dnx",
-      "args": ["GroupDocs.Comparison.Mcp@26.5.0", "--yes"],
+      "args": ["GroupDocs.Comparison.Mcp@26.7.0", "--yes"],
       "env": {
         "GROUPDOCS_MCP_STORAGE_PATH": "/Users/you/Documents"
       }
