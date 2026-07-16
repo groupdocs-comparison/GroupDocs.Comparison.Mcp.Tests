@@ -50,6 +50,31 @@ public class CompareTests
 
         // Source vs target with different titles must produce at least one change.
         Assert.Contains("change(s) detected", body, StringComparison.OrdinalIgnoreCase);
+
+        // Since 26.7.0 Compare also appends a structured JSON list of changes
+        // after the saved-file line.
+        AssertHasChangesJson(body);
+    }
+
+    /// Extracts and validates the `Changes:` JSON block that Compare/AnalyzeChanges
+    /// append (a JSON array of change projections). Asserts it parses and is a
+    /// non-empty array when changes were detected.
+    private static void AssertHasChangesJson(string body)
+    {
+        const string marker = "Changes:";
+        var idx = body.IndexOf(marker, StringComparison.Ordinal);
+        Assert.True(idx >= 0, $"Expected a 'Changes:' JSON section in response:\n{body}");
+
+        var json = body[(idx + marker.Length)..].Trim();
+        using var doc = System.Text.Json.JsonDocument.Parse(json);
+        Assert.Equal(System.Text.Json.JsonValueKind.Array, doc.RootElement.ValueKind);
+        Assert.True(doc.RootElement.GetArrayLength() >= 1,
+            $"Expected at least one change in the JSON array:\n{json}");
+
+        // Every change carries at least an id and a type.
+        var first = doc.RootElement[0];
+        Assert.True(first.TryGetProperty("id", out _), $"Change missing 'id':\n{json}");
+        Assert.True(first.TryGetProperty("type", out _), $"Change missing 'type':\n{json}");
     }
 
     [Fact]

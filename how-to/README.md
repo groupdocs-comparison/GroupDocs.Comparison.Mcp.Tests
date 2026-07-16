@@ -29,9 +29,12 @@ all point at the same published artifact (`26.7.0` at time of writing).
 ## Common context
 
 - All guides target `GroupDocs.Comparison.Mcp@26.7.0`. Substitute a newer version
-  freely — the interfaces haven't changed.
-- Tools exposed on the wire are `Compare` and `GetDocumentInfo` (snake_case).
-- `Compare` works without a license — output is just watermarked. With a license configured via `GROUPDOCS_LICENSE_PATH`, the
-  underlying library refuses to `Save()`. See each guide's "License" section.
+  freely — the interfaces are additive-only.
+- Tools exposed on the wire are `Compare`, `AnalyzeChanges`, and `GetDocumentInfo` (snake_case).
+  `AnalyzeChanges` (added in 26.7.0) returns the structured change list without rendering a result file.
+- `Compare` does the same as `AnalyzeChanges` and additionally renders a result document with the
+  detected changes visually highlighted. All tools work without a license, but with some evaluation-mode
+  limitations (e.g. a watermark in the output). Configure a license via `GROUPDOCS_LICENSE_PATH` to remove
+  them — see each guide's "License" section.
 - Evaluation-mode output may include a watermark prefix. The server surfaces
   this as `"[Evaluation mode] Output may include watermarks."` in responses.

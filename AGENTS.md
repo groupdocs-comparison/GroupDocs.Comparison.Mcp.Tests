@@ -9,7 +9,7 @@ Brief orientation for AI coding agents (Claude Code, Copilot, Cursor, Aider, Amp
 This repo is **not** the server itself. The server lives at [groupdocs-comparison/GroupDocs.Comparison.Mcp](https://github.com/groupdocs-comparison/GroupDocs.Comparison.Mcp). This repo:
 
 1. Consumes only the **published** NuGet artifact (no project references).
-2. Launches the server via `dnx`, connects as an MCP stdio client, and exercises the advertised tool.
+2. Launches the server via `dnx`, connects as an MCP stdio client, and exercises the advertised tools (`Compare`, `AnalyzeChanges`, `GetDocumentInfo`).
 3. Doubles as a copy-pasteable set of example configs and how-to guides for all deployment channels (NuGet, Docker, MCP registry, Claude Desktop, VS Code).
 
 ## Folder layout
@@ -19,12 +19,13 @@ src/GroupDocs.Comparison.Mcp.Tests/
   Fixtures/
     McpServerFixture.cs          ← launches dnx child process, wires stdio MCP client
     SampleDocuments.cs           ← builds two synthetic PDFs (source vs target) at runtime
-    ToolCatalog.cs               ← keyword-based tool name resolution (compare, documentinfo)
+    ToolCatalog.cs               ← keyword-based tool name resolution (compare, analyze, documentinfo)
     ToolResponse.cs              ← CallToolResult text/JSON extraction
     CommandResolver.cs           ← cross-platform dnx.cmd resolution on Windows
     PackageVersion.cs            ← pulls version from env / assembly metadata / default
-  ToolDiscoveryTests.cs          ← handshake, tools/list, schema validation
-  CompareTests.cs                ← source vs target PDF diff + self-comparison + real-sample theory
+  ToolDiscoveryTests.cs          ← handshake, tools/list (expects 3 tools), schema validation
+  CompareTests.cs                ← source vs target PDF diff + Changes: JSON + self-comparison + real-sample theory
+  AnalyzeChangesTests.cs         ← structured change list without rendering a file; no *_compared output written
   GetDocumentInfoTests.cs        ← file type, page count, size, per-page dimensions for synthetic + real samples
   ErrorHandlingTests.cs          ← unknown file, corrupted bytes, password parameters
   GroupDocs.Comparison.Mcp.Tests.csproj
@@ -43,7 +44,8 @@ global.json                        ← pinned to .NET 10.0.100
 |---|---|
 | Package installs and starts via `dnx` | `McpServerFixture` |
 | MCP handshake, server info, version | `ToolDiscoveryTests` |
-| `Compare` — source vs target PDF diff + self-comparison + real-sample theory | `CompareTests` |
+| `Compare` — source vs target PDF diff + structured `Changes:` JSON + self-comparison + real-sample theory | `CompareTests` |
+| `AnalyzeChanges` — structured change list without rendering a file; asserts no `*_compared` output is written | `AnalyzeChangesTests` |
 | `GetDocumentInfo` — file type, page count, size, per-page dimensions for synthetic + real samples | `GetDocumentInfoTests` |
 | Unknown / corrupted files, password parameters | `ErrorHandlingTests` |
 
@@ -71,7 +73,7 @@ dotnet test -c Release --filter "FullyQualifiedName~ToolDiscovery"
 
 ## Key design decisions
 
-1. **Keyword-based tool resolution.** `ToolCatalog.Compare` resolves by case-insensitive keyword match (`"compare"`). The MCP C# SDK currently uses the method name verbatim (PascalCase: `Compare`) — keyword resolution keeps tests robust against future renames / casing convention changes.
+1. **Keyword-based tool resolution.** `ToolCatalog` resolves each tool by case-insensitive keyword match (`"compare"`, `"analyze"`, `"document_info"`). The MCP C# SDK currently uses the method name verbatim (PascalCase: `Compare`, `AnalyzeChanges`, `GetDocumentInfo`) — keyword resolution keeps tests robust against future renames / casing convention changes.
 
 2. **Two synthetic PDFs.** `SampleDocuments.cs` builds `source.pdf` (title "Original Document") and `target.pdf` (title "Modified Document") from byte arrays at startup. Comparing them must yield ≥ 1 change; comparing source against itself must yield "No changes detected." Real samples live under `sample-docs/` and are auto-copied via the csproj's `<None Include="..\..\sample-docs\**\*">` item; the real-sample theory uses self-comparison since we don't ship paired fixtures.
 

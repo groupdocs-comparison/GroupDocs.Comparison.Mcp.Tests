@@ -29,15 +29,16 @@ public class ToolDiscoveryTests
     }
 
     [Fact]
-    public async Task ListTools_ExposesCompareAndGetDocumentInfo()
+    public async Task ListTools_ExposesCompareAnalyzeChangesAndGetDocumentInfo()
     {
         var catalog = await ToolCatalog.LoadAsync(_fixture.Client);
 
         foreach (var tool in catalog.All)
             _output.WriteLine($"tool: {tool.Name} — {tool.Description}");
 
-        Assert.Equal(2, catalog.All.Count);
+        Assert.Equal(3, catalog.All.Count);
         Assert.NotNull(catalog.Compare);
+        Assert.NotNull(catalog.AnalyzeChanges);
         Assert.NotNull(catalog.DocumentInfo);
     }
 

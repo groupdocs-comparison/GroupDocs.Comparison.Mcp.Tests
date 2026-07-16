@@ -88,8 +88,8 @@ Pipe an `initialize` + `tools/list` sequence to see the advertised tools:
 ) | GROUPDOCS_MCP_STORAGE_PATH=./docs dnx GroupDocs.Comparison.Mcp@26.7.0 --yes
 ```
 
-You should see two JSON-RPC responses containing the `Compare` and
-`GetDocumentInfo` tool definitions.
+You should see two JSON-RPC responses containing the `Compare`,
+`AnalyzeChanges`, and `GetDocumentInfo` tool definitions.
 
 ## Option 2 — global dotnet tool
 
