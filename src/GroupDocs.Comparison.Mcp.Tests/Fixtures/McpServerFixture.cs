@@ -6,6 +6,8 @@ namespace GroupDocs.Comparison.Mcp.IntegrationTests.Fixtures;
 /// Boots the published GroupDocs.Comparison.Mcp NuGet via `dnx` as a child process,
 /// wires an MCP stdio client, and seeds a temporary storage folder with sample
 /// documents. Shared across all tests in the same xUnit collection.
+// Used as IClassFixture<McpServerFixture> — ONE fresh server process PER TEST CLASS,
+// so no single process exhausts the engine's evaluation-mode document-open cap.
 public sealed class McpServerFixture : IAsyncLifetime
 {
     public string StoragePath { get; } = Path.Combine(
@@ -78,8 +80,3 @@ public sealed class McpServerFixture : IAsyncLifetime
     }
 }
 
-[CollectionDefinition(Name)]
-public sealed class McpServerCollection : ICollectionFixture<McpServerFixture>
-{
-    public const string Name = "mcp-server";
-}
