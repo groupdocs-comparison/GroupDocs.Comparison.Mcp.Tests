@@ -4,8 +4,7 @@ using Xunit.Abstractions;
 
 namespace GroupDocs.Comparison.Mcp.IntegrationTests;
 
-[Collection(McpServerCollection.Name)]
-public class GetDocumentInfoTests
+public class GetDocumentInfoTests : IClassFixture<McpServerFixture>
 {
     private readonly McpServerFixture _fixture;
     private readonly ITestOutputHelper _output;
