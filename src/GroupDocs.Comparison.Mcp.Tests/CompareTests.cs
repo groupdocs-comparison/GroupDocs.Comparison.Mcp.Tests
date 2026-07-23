@@ -6,8 +6,7 @@ namespace GroupDocs.Comparison.Mcp.IntegrationTests;
 
 /// GroupDocs.Comparison.Compare produces output in evaluation mode (with
 /// watermarks) so happy-path assertions work in both eval and licensed mode.
-[Collection(McpServerCollection.Name)]
-public class CompareTests
+public class CompareTests : IClassFixture<McpServerFixture>
 {
     private readonly McpServerFixture _fixture;
     private readonly ITestOutputHelper _output;
