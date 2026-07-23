@@ -8,8 +8,7 @@ namespace GroupDocs.Comparison.Mcp.IntegrationTests;
 /// AnalyzeChanges returns the structured change list WITHOUT rendering a result
 /// file. Added in package 26.7.0 — against older packages the tool is absent and
 /// ToolCatalog.AnalyzeChanges throws, which correctly fails these tests.
-[Collection(McpServerCollection.Name)]
-public class AnalyzeChangesTests
+public class AnalyzeChangesTests : IClassFixture<McpServerFixture>
 {
     private readonly McpServerFixture _fixture;
     private readonly ITestOutputHelper _output;
