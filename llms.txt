@@ -21,7 +21,8 @@ This repo validates the **published NuGet artifact** end-to-end and doubles as a
 
 ## MCP tools exposed by the server
 
-- Compare — compare two documents (source vs target), produce a marked-up result file with the differences highlighted, return a change-count summary; takes optional `sourcePassword` / `targetPassword` for protected documents
+- Compare — compare two documents (source vs target), produce a marked-up result file with the differences highlighted, return a change-count summary plus a structured JSON change list; takes optional `sourcePassword` / `targetPassword` for protected documents
+- AnalyzeChanges — return the differences between two documents as structured data only (the same JSON change list as Compare) without rendering or saving a result file; cheaper than Compare, for summarizing or reasoning about what changed; takes optional `sourcePassword` / `targetPassword`
 - GetDocumentInfo — inspect a single source document and return file type, page count, file size, and per-page dimensions as JSON; no comparison performed; takes optional `password` for protected documents
 
 ## Environment variables
@@ -33,7 +34,7 @@ This repo validates the **published NuGet artifact** end-to-end and doubles as a
 ## Key facts for AI agents
 
 - Testing the shipped NuGet, not the source. No project reference to the server.
-- Tool names on the wire are PascalCase: Compare, GetDocumentInfo.
+- Tool names on the wire are PascalCase: Compare, AnalyzeChanges, GetDocumentInfo.
 - Compare produces a watermarked output in evaluation mode (does not throw). GetDocumentInfo is read-only and unaffected by license state. Tests succeed in both eval and licensed mode.
 - Two synthetic PDFs are generated at test startup so a Compare call always has a known diff target. Real samples (sample.docx, sample.xlsx, etc.) under sample-docs/ are exercised via self-comparison theories.
 - Target framework is net10.0 only. Requires .NET 10 SDK for dnx.
