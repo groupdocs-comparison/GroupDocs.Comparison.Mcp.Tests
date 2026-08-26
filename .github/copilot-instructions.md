@@ -12,8 +12,8 @@ dotnet build -c Release
 dotnet test  -c Release
 
 # Test a specific published version
-dotnet test -c Release -p:McpPackageVersion=26.7.5
-# or:  MCP_PACKAGE_VERSION=26.7.5 dotnet test -c Release
+dotnet test -c Release -p:McpPackageVersion=26.8.0
+# or:  MCP_PACKAGE_VERSION=26.8.0 dotnet test -c Release
 
 # Unlock licensed-mode tests (drops watermarks)
 GROUPDOCS_LICENSE_PATH=/path/to/GroupDocs.Total.lic dotnet test -c Release

@@ -168,7 +168,7 @@ mkdir -p /tmp/gd && cp some.pdf /tmp/gd/
   echo '{"jsonrpc":"2.0","method":"notifications/initialized"}'
   echo '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"compare","arguments":{"file":{"filePath":"some.pdf"}}}}'
   sleep 5
-) | GROUPDOCS_MCP_STORAGE_PATH=/tmp/gd dnx GroupDocs.Comparison.Mcp@26.7.0 --yes \
+) | GROUPDOCS_MCP_STORAGE_PATH=/tmp/gd dnx GroupDocs.Comparison.Mcp@26.8.0 --yes \
     > stdout.log 2> stderr.log
 tail -50 stderr.log
 ```

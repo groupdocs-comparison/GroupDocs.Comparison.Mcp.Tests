@@ -29,7 +29,7 @@ Create the file if it doesn't exist.
   "mcpServers": {
     "groupdocs-comparison": {
       "command": "dnx",
-      "args": ["GroupDocs.Comparison.Mcp@26.7.0", "--yes"],
+      "args": ["GroupDocs.Comparison.Mcp@26.8.0", "--yes"],
       "env": {
         "GROUPDOCS_MCP_STORAGE_PATH": "/Users/you/Documents"
       }
@@ -42,7 +42,7 @@ Create the file if it doesn't exist.
   operate on (source and target documents, plus the generated `*_compared.*`
   output). On Windows use `"C:\\Users\\you\\Documents"` (double-escaped) or
   forward slashes.
-- Omit `@26.7.0` to always pull the latest stable.
+- Omit `@26.8.0` to always pull the latest stable.
 - Add `"GROUPDOCS_LICENSE_PATH": "…/GroupDocs.Total.lic"` to `env` to remove the
   evaluation watermark from compared output. Unlike Metadata, `compare` and
   `get_document_info` both run **without** a license — evaluation output is just
@@ -62,7 +62,7 @@ directly with `dotnet.exe`:
     "groupdocs-comparison": {
       "command": "C:\\Program Files\\dotnet\\dotnet.exe",
       "args": [
-        "C:\\Users\\you\\.nuget\\packages\\groupdocs.comparison.mcp\\26.7.0\\tools\\net10.0\\any\\GroupDocs.Comparison.Mcp.dll"
+        "C:\\Users\\you\\.nuget\\packages\\groupdocs.comparison.mcp\\26.8.0\\tools\\net10.0\\any\\GroupDocs.Comparison.Mcp.dll"
       ],
       "env": {
         "GROUPDOCS_MCP_STORAGE_PATH": "C:\\Users\\you\\Documents"
@@ -72,7 +72,7 @@ directly with `dotnet.exe`:
 }
 ```
 
-Populate the cache first by running `dnx GroupDocs.Comparison.Mcp@26.7.0 --yes` once
+Populate the cache first by running `dnx GroupDocs.Comparison.Mcp@26.8.0 --yes` once
 in a terminal, then point `args[0]` at the resulting
 `…\.nuget\packages\groupdocs.comparison.mcp\<version>\tools\net10.0\any\GroupDocs.Comparison.Mcp.dll`.
 
@@ -86,7 +86,7 @@ in a terminal, then point `args[0]` at the resulting
       "args": [
         "run", "--rm", "-i",
         "-v", "/Users/you/Documents:/data",
-        "ghcr.io/groupdocs-comparison/comparison-net-mcp:26.7.0"
+        "ghcr.io/groupdocs-comparison/comparison-net-mcp:26.8.0"
       ]
     }
   }
