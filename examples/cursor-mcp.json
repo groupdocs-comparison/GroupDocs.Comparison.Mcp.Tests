@@ -2,7 +2,7 @@
   "mcpServers": {
     "groupdocs-comparison": {
       "command": "dnx",
-      "args": ["GroupDocs.Comparison.Mcp@26.8.0", "--yes"],
+      "args": ["GroupDocs.Comparison.Mcp@26.9.0", "--yes"],
       "env": {
         "GROUPDOCS_MCP_STORAGE_PATH": "/absolute/path/to/documents",
         "GROUPDOCS_LICENSE_PATH": "/absolute/path/to/GroupDocs.Total.lic"
