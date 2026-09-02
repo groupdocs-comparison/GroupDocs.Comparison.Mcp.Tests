@@ -28,17 +28,19 @@ public class ToolDiscoveryTests : IClassFixture<McpServerFixture>
     }
 
     [Fact]
-    public async Task ListTools_ExposesCompareAnalyzeChangesAndGetDocumentInfo()
+    public async Task ListTools_ExposesTheFullToolSurface()
     {
         var catalog = await ToolCatalog.LoadAsync(_fixture.Client);
 
         foreach (var tool in catalog.All)
             _output.WriteLine($"tool: {tool.Name} — {tool.Description}");
 
-        Assert.Equal(3, catalog.All.Count);
-        Assert.NotNull(catalog.Compare);
-        Assert.NotNull(catalog.AnalyzeChanges);
-        Assert.NotNull(catalog.DocumentInfo);
+        // Three product tools plus get_license_status, which GroupDocs.Mcp.Core registers
+        // on every server from 26.9.0. Asserted as an exact set rather than a count so a
+        // renamed or accidentally-dropped tool fails loudly instead of cancelling out.
+        Assert.Equal(
+            new[] { "analyze_changes", "compare", "get_document_info", "get_license_status" },
+            catalog.All.Select(t => t.Name).OrderBy(n => n, StringComparer.Ordinal).ToArray());
     }
 
     [Fact]
