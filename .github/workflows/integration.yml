@@ -13,7 +13,7 @@ on:
       package_version:
         description: "GroupDocs.Comparison.Mcp version on nuget.org to test"
         required: false
-        default: "26.8.0"
+        default: "26.9.0"
   # Triggered from the main repo's publish workflow right after a NuGet push.
   # Payload: { "package_version": "x.y.z" }
   repository_dispatch:
@@ -35,7 +35,7 @@ jobs:
       MCP_PACKAGE_VERSION: >-
         ${{ github.event.inputs.package_version
             || github.event.client_payload.package_version
-            || '26.8.0' }}
+            || '26.9.0' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -133,9 +133,12 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
+      # Category=Metered is excluded here on purpose: those tests bill a real metered
+      # account per operation, so they run only from the dedicated `metered` workflow.
       - name: Integration tests
         run: >-
           dotnet test --configuration Release --no-build
+          --filter "Category!=Metered"
           --logger "trx;LogFileName=integration.trx"
           --logger "console;verbosity=detailed"
           --blame-hang --blame-hang-timeout 5m --blame-hang-dump-type full
