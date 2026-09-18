@@ -44,7 +44,7 @@ jobs:
     timeout-minutes: 15
 
     env:
-      MCP_PACKAGE_VERSION: ${{ inputs.package_version || '26.9.0' }}
+      MCP_PACKAGE_VERSION: ${{ inputs.package_version || '26.9.1' }}
 
     steps:
       - uses: actions/checkout@v4
